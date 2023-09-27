@@ -13,7 +13,7 @@ const sessionsRoutes = require('./routes/sessions_routes')
 const pagesRoutes = require('./routes/pages_routes')
 const usersRoutes = require('./routes/users_routes')
 
-const port = 8080
+const port = process.env.PORT || 8080
 const app = express()
 
 app.set('view engine', 'ejs')
@@ -24,10 +24,11 @@ app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }))
 app.use(reqBodyMethodOverride)
 app.use(session({
-    secret: 'keyboard cat',
-    resave: false,
-    saveUninitialized: true
-}))
+      secret: process.env.SESSION_SECRET || "mistyrose",
+      resave: false,
+      saveUninitialized: true,
+    })
+  );
 app.use(setCurrentUser)
 app.use(requestLogger)
 app.use(expressLayouts)
